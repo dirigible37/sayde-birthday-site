@@ -60,8 +60,10 @@ export const useRoadAnimation = () => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      setRoadProgress(Math.min(Math.max(progress, 0), 100));
+      
+      // Adjust to complete road at ~90% of total scroll (before final section)
+      const adjustedProgress = (scrollTop / (docHeight * 0.9)) * 100;
+      setRoadProgress(Math.min(Math.max(adjustedProgress, 0), 100));
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });

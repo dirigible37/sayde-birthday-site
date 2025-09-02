@@ -22,7 +22,10 @@ function App() {
   const section3 = useScrollAnimation(section3Ref);
   const section4 = useScrollAnimation(section4Ref);
   const section5 = useScrollAnimation(section5Ref);
-  const final = useScrollAnimation(finalRef);
+  const final = useScrollAnimation(finalRef, { 
+    threshold: 0.8, 
+    rootMargin: '-10% 0px -10% 0px' 
+  });
 
   return (
     <div className="relative">
@@ -127,16 +130,16 @@ function App() {
         )}
       </section>
 
+      {/* Spacer before final section */}
+      <div className="h-96" />
+
       {/* Final Present Reveal Section */}
       <section 
         ref={finalRef}
         className="min-h-screen flex items-center justify-center relative"
       >
-        <PresentReveal isVisible={final.isVisible} />
+        {final.isVisible && <PresentReveal isVisible={final.isVisible} />}
       </section>
-
-      {/* Bottom padding for smooth scrolling */}
-      <div className="h-screen" />
     </div>
   );
 }
