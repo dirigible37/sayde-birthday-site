@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useEffect, useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { EmeraldCity } from "./EmeraldCity";
 import dorothyImage from "../assets/dorothy.png";
 
@@ -11,250 +11,251 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
   progress,
   className = "",
 }) => {
-  const pathRef = useRef<SVGPathElement>(null);
-  const [dorothyPosition, setDorothyPosition] = useState({
-    x: 0,
-    y: 0,
-    angle: 0,
-  });
-  const [documentHeight, setDocumentHeight] = useState(0);
-  const [pathLength, setPathLength] = useState(0);
+  // Dynamic site height that updates with screen size
+  const [siteHeight, setSiteHeight] = useState(3408);
+  const viewBoxWidth = 800;
+  const centerX = viewBoxWidth / 2;
+  const roadWidth = 160;
 
-  // Calculate document height
+  // Dorothy's position state (now in SVG coordinates)
+  const [dorothyPosition, setDorothyPosition] = useState({ x: centerX, y: 0 });
+
+  // Sine wave parameters
+  const amplitude = 120; // How far the road curves left/right
+  const frequency = 4; // Number of complete waves
+  const startY = 0; // Start at very top
+  const endY = siteHeight; // End at very bottom
+
+  // Update site height on mount and resize
   useEffect(() => {
-    const updateHeight = () => {
-      setDocumentHeight(document.documentElement.scrollHeight);
+    const updateSiteHeight = () => {
+      const height = document.documentElement.scrollHeight;
+      setSiteHeight(height);
     };
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
+
+    updateSiteHeight();
+    window.addEventListener("resize", updateSiteHeight);
+
+    // Also listen for content changes that might affect height
+    const observer = new MutationObserver(updateSiteHeight);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener("resize", updateSiteHeight);
+      observer.disconnect();
+    };
   }, []);
 
-  // Calculate responsive dimensions
-  const { viewBoxWidth, strokeWidthBase, dorothyWidth, dorothyHeight } =
-    useMemo(() => {
-      if (typeof window === "undefined") {
-        // Server-side rendering defaults - use similar fixed pixel approach
-        const dorothyPixelHeight = 150;
-        const dorothyAspectRatio = 3 / 4;
-        const dorothyPixelWidth = dorothyPixelHeight * dorothyAspectRatio;
-        // Assume default screen width for SSR calculation
-        const defaultScreenWidth = 1200;
-        const defaultViewBoxWidth = 800;
-        const viewBoxToPixelRatio = defaultViewBoxWidth / defaultScreenWidth;
+  const centerPoints = useMemo(() => {
+    const points: { x: number; y: number }[] = [];
+    const numPoints = 200; // Many points for smooth curve
 
-        return {
-          viewBoxWidth: 400,
-          strokeWidthBase: 120,
-          dorothyWidth: dorothyPixelWidth * viewBoxToPixelRatio,
-          dorothyHeight: dorothyPixelHeight * viewBoxToPixelRatio,
-        };
-      }
-
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const isWide = aspectRatio > 1.5;
-      const isNarrow = aspectRatio < 0.7;
-
-      let width = 400;
-      let strokeBase = 240; // Increased base stroke width for wider road
-
-      if (isWide) {
-        width = Math.min(450, window.innerWidth * 0.25);
-        strokeBase = 220; // Increased for wide screens
-      } else if (isNarrow) {
-        width = Math.max(200, window.innerWidth * 0.4);
-        strokeBase = 160; // Increased for narrow screens
-      } else {
-        width = 300;
-        strokeBase = 200; // Increased for normal screens
-      }
-
-      // Fixed Dorothy size in pixels for consistent visual appearance
-      const dorothyPixelHeight = 200; // Fixed pixel height regardless of screen size
-      const dorothyAspectRatio = 3 / 4; // width/height ratio from original image
-      const dorothyPixelWidth = dorothyPixelHeight * dorothyAspectRatio;
-
-      // Convert pixel size to SVG coordinate system
-      // The SVG viewBox scales to fit the screen, so we need to convert pixel size to viewBox units
-      const svgWidthInPixels = window.innerWidth; // SVG takes full width
-      const viewBoxToPixelRatio = (width * 2) / svgWidthInPixels; // viewBox units per pixel
-
-      const dorothyWidth = dorothyPixelWidth * viewBoxToPixelRatio;
-      const dorothyHeight = dorothyPixelHeight * viewBoxToPixelRatio;
-
-      return {
-        viewBoxWidth: width * 2,
-        strokeWidthBase: strokeBase * 0.6, // Slightly increased multiplier
-        dorothyWidth: dorothyWidth,
-        dorothyHeight: dorothyHeight,
-      };
-    }, []);
-
-  // Use fixed viewBox height for predictable coordinate space
-  const viewBoxHeight = 5000;
-
-  // Responsive path that adapts to viewBox width
-  const pathData = useMemo(() => {
-    const centerX = viewBoxWidth / 2;
-    const curveAmount = viewBoxWidth * 0.125;
-    const pathHeight = viewBoxHeight * 0.95; // Use 95% of viewBox height (4750)
-    const segmentHeight = pathHeight / 8;
-
-    return `
-      M${centerX} 0
-      C${centerX + curveAmount} ${segmentHeight * 0.5} ${
-      centerX - curveAmount
-    } ${segmentHeight} ${centerX} ${segmentHeight * 1.5}
-      C${centerX + curveAmount * 1.4} ${segmentHeight * 2} ${
-      centerX - curveAmount * 1.8
-    } ${segmentHeight * 2.5} ${centerX} ${segmentHeight * 3}
-      C${centerX + curveAmount * 2.2} ${segmentHeight * 3.5} ${
-      centerX - curveAmount * 2.4
-    } ${segmentHeight * 4} ${centerX} ${segmentHeight * 4.5}
-      C${centerX + curveAmount * 1.8} ${segmentHeight * 5} ${
-      centerX - curveAmount * 1.6
-    } ${segmentHeight * 5.5} ${centerX} ${segmentHeight * 6}
-      C${centerX + curveAmount * 1.4} ${segmentHeight * 6.5} ${
-      centerX - curveAmount * 1.8
-    } ${segmentHeight * 7} ${centerX} ${segmentHeight * 7.5}
-      C${centerX + curveAmount * 0.4} ${segmentHeight * 7.75} ${
-      centerX - curveAmount * 0.4
-    } ${segmentHeight * 7.9} ${centerX} ${pathHeight * 0.98}
-      L${centerX} ${pathHeight}
-    `;
-  }, [viewBoxWidth]);
-
-  // Calculate path length
-  useEffect(() => {
-    if (pathRef.current) {
-      const length = pathRef.current.getTotalLength();
-      setPathLength(length);
+    for (let i = 0; i <= numPoints; i++) {
+      const t = i / numPoints; // 0 to 1
+      const y = startY + t * (endY - startY);
+      const angle = t * frequency * Math.PI * 2;
+      const x = centerX + Math.sin(angle) * amplitude;
+      points.push({ x, y });
     }
-  }, [pathData]);
 
-  // Calculate Dorothy's position along the path
+    return points;
+  }, [startY, endY, centerX, amplitude, frequency, siteHeight]);
+
+  const roadShape = useMemo(() => {
+    const leftPoints: { x: number; y: number }[] = [];
+    const rightPoints: { x: number; y: number }[] = [];
+
+    // Calculate left and right edges of the road
+    for (let i = 0; i < centerPoints.length; i++) {
+      const point = centerPoints[i];
+
+      // Calculate direction vector for perpendicular
+      let dirX = 0,
+        dirY = 1;
+      if (i < centerPoints.length - 1) {
+        dirX = centerPoints[i + 1].x - point.x;
+        dirY = centerPoints[i + 1].y - point.y;
+      } else if (i > 0) {
+        dirX = point.x - centerPoints[i - 1].x;
+        dirY = point.y - centerPoints[i - 1].y;
+      }
+
+      // Normalize and get perpendicular
+      const length = Math.sqrt(dirX * dirX + dirY * dirY);
+      if (length > 0) {
+        dirX /= length;
+        dirY /= length;
+      }
+
+      // Perpendicular vector (rotated 90 degrees)
+      const perpX = -dirY;
+      const perpY = dirX;
+
+      // Calculate left and right points
+      const halfWidth = roadWidth / 2;
+      leftPoints.push({
+        x: point.x + perpX * halfWidth,
+        y: point.y + perpY * halfWidth,
+      });
+      rightPoints.push({
+        x: point.x - perpX * halfWidth,
+        y: point.y - perpY * halfWidth,
+      });
+    }
+
+    // Create path: go down left side, then back up right side
+    let pathData = `M${leftPoints[0].x},${leftPoints[0].y}`;
+
+    // Left side going down
+    for (let i = 1; i < leftPoints.length; i++) {
+      pathData += ` L${leftPoints[i].x},${leftPoints[i].y}`;
+    }
+
+    // Connect to right side at bottom
+    pathData += ` L${rightPoints[rightPoints.length - 1].x},${
+      rightPoints[rightPoints.length - 1].y
+    }`;
+
+    // Right side going up
+    for (let i = rightPoints.length - 2; i >= 0; i--) {
+      pathData += ` L${rightPoints[i].x},${rightPoints[i].y}`;
+    }
+
+    pathData += " Z"; // Close path
+
+    return pathData;
+  }, [centerPoints, roadWidth]);
+
+  // Update Dorothy's position based on scroll
   useEffect(() => {
-    if (pathRef.current && pathLength > 0) {
-      // Calculate position along path based on progress
-      const distance = (progress / 100) * pathLength;
-      const point = pathRef.current.getPointAtLength(distance);
+    const updateDorothyPosition = () => {
+      // Get current scroll position
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
 
-      // Get the angle of the path at this point for rotation
-      const point2 = pathRef.current.getPointAtLength(
-        Math.min(distance + 1, pathLength)
-      );
-      const angle =
-        (Math.atan2(point2.y - point.y, point2.x - point.x) * 180) / Math.PI +
-        90;
+      // Calculate which part of the road should be at the center of the screen (50vh)
+      // Dorothy needs to be positioned at the road point that's currently at 50vh
+      const viewportCenter = scrollY + windowHeight * 0.5;
 
+      // Convert to SVG Y coordinate
+      const svgY = (viewportCenter / siteHeight) * siteHeight;
+
+      // Find the road point at this Y position
+      const t = Math.max(0, Math.min(1, svgY / siteHeight));
+      const index = Math.floor(t * (centerPoints.length - 1));
+      const point = centerPoints[index] || centerPoints[0];
+
+      // Dorothy position is directly the road point (same coordinate system)
       setDorothyPosition({
         x: point.x,
         y: point.y,
-        angle: angle,
       });
-    }
-  }, [progress, pathLength]);
+    };
+
+    // Initial position
+    updateDorothyPosition();
+
+    // Add scroll listener
+    window.addEventListener("scroll", updateDorothyPosition, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateDorothyPosition);
+    };
+  }, [centerPoints, siteHeight, viewBoxWidth]);
 
   return (
     <>
       <div
         className={`absolute inset-x-0 top-0 pointer-events-none z-[5] ${className}`}
-        style={{ height: `${documentHeight}px` }}
+        style={{ height: `${siteHeight}px` }}
       >
         <svg
           width="100%"
-          height="100%"
-          viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+          height={`${siteHeight}px`}
+          viewBox={`0 0 ${viewBoxWidth} ${siteHeight}`}
           className="absolute left-0 top-0 w-full h-full"
-          preserveAspectRatio="none"
-          style={
-            {
-              "--stroke-base": `${strokeWidthBase}px`,
-            } as React.CSSProperties
-          }
+          preserveAspectRatio="xMidYMin meet"
         >
           <defs>
-            {/* Simplified Brick Pattern */}
+            {/* Yellow Brick Pattern */}
             <pattern
-              id="brickPattern"
+              id="yellowBrickPattern"
               x="0"
               y="0"
               width="40"
-              height="24"
+              height="20"
               patternUnits="userSpaceOnUse"
             >
-              <rect x="0" y="0" width="40" height="24" fill="#CD853F" />
-              <rect x="2" y="2" width="16" height="8" fill="#FFD700" rx="1" />
-              <rect x="22" y="2" width="16" height="8" fill="#FFA500" rx="1" />
-              <rect x="12" y="12" width="16" height="8" fill="#FFD700" rx="1" />
-              <rect x="32" y="12" width="6" height="8" fill="#FFA500" rx="1" />
-              <rect x="2" y="12" width="6" height="8" fill="#FFA500" rx="1" />
+              {/* Brown mortar background */}
+              <rect x="0" y="0" width="40" height="20" fill="#8B4513" />
+
+              {/* Top row bricks */}
+              <rect
+                x="1"
+                y="1"
+                width="18"
+                height="8"
+                fill="#FFD700"
+                stroke="#DAA520"
+                strokeWidth="0.3"
+              />
+              <rect
+                x="21"
+                y="1"
+                width="18"
+                height="8"
+                fill="#FFA500"
+                stroke="#FF8C00"
+                strokeWidth="0.3"
+              />
+
+              {/* Bottom row bricks (offset) */}
+              <rect
+                x="10"
+                y="10"
+                width="18"
+                height="8"
+                fill="#FFFF99"
+                stroke="#DAA520"
+                strokeWidth="0.3"
+              />
+              <rect
+                x="-9"
+                y="10"
+                width="18"
+                height="8"
+                fill="#FFD700"
+                stroke="#DAA520"
+                strokeWidth="0.3"
+              />
+              <rect
+                x="31"
+                y="10"
+                width="18"
+                height="8"
+                fill="#FFA500"
+                stroke="#FF8C00"
+                strokeWidth="0.3"
+              />
             </pattern>
-
-            {/* Road Gradient */}
-            <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#B8860B" />
-              <stop offset="20%" stopColor="#DAA520" />
-              <stop offset="50%" stopColor="#FFD700" />
-              <stop offset="80%" stopColor="#DAA520" />
-              <stop offset="100%" stopColor="#B8860B" />
-            </linearGradient>
-
-            {/* Shadow filter for Dorothy */}
-            <filter id="dorothyShadow">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
-              <feOffset dx="2" dy="4" result="offsetblur" />
-              <feFlood floodColor="#000000" floodOpacity="0.3" />
-              <feComposite in2="offsetblur" operator="in" />
-              <feMerge>
-                <feMergeNode />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
-          {/* Road Border */}
+          {/* Road shape filled with brick pattern */}
           <path
-            ref={pathRef}
-            d={pathData}
-            fill="none"
-            stroke="#8B4513"
-            strokeWidth={strokeWidthBase}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.8"
+            d={roadShape}
+            fill="url(#yellowBrickPattern)"
+            stroke="#654321"
+            strokeWidth="2"
           />
-
-          {/* Brick Texture Overlay */}
-          <path
-            d={pathData}
-            fill="none"
-            stroke="url(#brickPattern)"
-            strokeWidth={strokeWidthBase - 10}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.8"
+          {/* Dorothy positioned inside SVG using same coordinate system */}
+          <image
+            href={dorothyImage}
+            x={dorothyPosition.x - 80}
+            y={dorothyPosition.y - 60}
+            width="160"
+            height="240"
+            className="drop-shadow-lg"
           />
-
-          {/* Dorothy and Toto */}
-          {progress > 0 && (
-            <image
-              href={dorothyImage}
-              x={dorothyPosition.x - dorothyWidth / 2}
-              y={dorothyPosition.y - dorothyHeight}
-              width={dorothyWidth}
-              height={dorothyHeight}
-              filter="url(#dorothyShadow)"
-              style={
-                {
-                  transition: "all 0.3s ease-out",
-                  transformOrigin: `${dorothyPosition.x}px ${dorothyPosition.y}px`,
-                  transform: `rotate(${(dorothyPosition.angle || 0) + 180}deg)`,
-                  imageRendering: "pixelated",
-                } as React.CSSProperties
-              }
-            />
-          )}
         </svg>
       </div>
 

@@ -1,14 +1,14 @@
-import { useRef } from 'react';
-import { BackgroundGradient } from './components/BackgroundGradient';
-import { YellowBrickRoad } from './components/YellowBrickRoad';
-import { ScrollItem } from './components/ScrollItem';
-import { PresentReveal } from './components/PresentReveal';
-import { useScrollAnimation } from './hooks/useScrollAnimation';
-import { useRoadAnimation } from './hooks/useProgressiveReveal';
+import { useRef } from "react";
+import { BackgroundGradient } from "./components/BackgroundGradient";
+import { YellowBrickRoad } from "./components/YellowBrickRoad";
+import { ScrollItem } from "./components/ScrollItem";
+import { PresentReveal } from "./components/PresentReveal";
+import { useScrollAnimation } from "./hooks/useScrollAnimation";
+import { useRoadAnimation } from "./hooks/useProgressiveReveal";
 
 function App() {
   const roadProgress = useRoadAnimation();
-  
+
   // Refs for scroll sections
   const section1Ref = useRef<HTMLDivElement>(null);
   const section2Ref = useRef<HTMLDivElement>(null);
@@ -22,9 +22,9 @@ function App() {
   const section3 = useScrollAnimation(section3Ref);
   const section4 = useScrollAnimation(section4Ref);
   const section5 = useScrollAnimation(section5Ref);
-  const final = useScrollAnimation(finalRef, { 
-    threshold: 0.8, 
-    rootMargin: '-10% 0px -10% 0px' 
+  const final = useScrollAnimation(finalRef, {
+    threshold: 0.8,
+    rootMargin: "-10% 0px -10% 0px",
   });
 
   return (
@@ -33,15 +33,15 @@ function App() {
       <YellowBrickRoad progress={roadProgress} />
 
       {/* Welcome Section */}
-      <section 
+      <section
         ref={section1Ref}
-        className="min-h-screen flex items-center justify-center relative z-10 px-4"
+        className="flex justify-center relative z-10 py-24 md:py-32 backdrop-blur-sm bg-gradient-to-b from-black to-black/30"
       >
-        <div className="text-center text-white max-w-4xl mx-auto">
+        <div className="text-center text-white max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in-up">
             Welcome to Your
           </h1>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 md:mb-8 text-yellow-300 animate-fade-in-up delay-300">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 md:mb-8 text-yellow-400 animate-fade-in-up delay-300">
             Birthday Journey! 🎂
           </h2>
           <p className="text-lg md:text-xl opacity-90 animate-fade-in-up delay-500 leading-relaxed">
@@ -55,7 +55,7 @@ function App() {
       </section>
 
       {/* Journey Section 1 */}
-      <section 
+      <section
         ref={section2Ref}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
@@ -65,16 +65,16 @@ function App() {
               The Adventure Begins! ✨
             </h3>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Every great birthday deserves a magical celebration. 
-              Your special day calls for something extraordinary, 
-              and this yellow brick road will lead you there!
+              Every great birthday deserves a magical celebration. Your special
+              day calls for something extraordinary, and this yellow brick road
+              will lead you there!
             </p>
           </ScrollItem>
         )}
       </section>
 
       {/* Journey Section 2 */}
-      <section 
+      <section
         ref={section3Ref}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
@@ -84,16 +84,16 @@ function App() {
               35 Years of Amazing! 🌟
             </h3>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Celebrating another year of your wonderful presence in this world. 
-              Your kindness, laughter, and spirit make every day brighter 
-              for everyone around you.
+              Celebrating another year of your wonderful presence in this world.
+              Your kindness, laughter, and spirit make every day brighter for
+              everyone around you.
             </p>
           </ScrollItem>
         )}
       </section>
 
       {/* Journey Section 3 */}
-      <section 
+      <section
         ref={section4Ref}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
@@ -103,16 +103,16 @@ function App() {
               A Special Surprise Awaits 🎁
             </h3>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              The road is almost complete, and your birthday surprise 
-              is just around the corner. Something special has been 
-              prepared just for you!
+              The road is almost complete, and your birthday surprise is just
+              around the corner. Something special has been prepared just for
+              you!
             </p>
           </ScrollItem>
         )}
       </section>
 
       {/* Journey Section 4 */}
-      <section 
+      <section
         ref={section5Ref}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
       >
@@ -122,9 +122,9 @@ function App() {
               Almost There! 🌈
             </h3>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              The yellow brick road has led you through this magical journey, 
-              and now it's time for the moment you've been waiting for. 
-              Your birthday surprise is just ahead!
+              The yellow brick road has led you through this magical journey,
+              and now it's time for the moment you've been waiting for. Your
+              birthday surprise is just ahead!
             </p>
           </ScrollItem>
         )}
@@ -134,7 +134,7 @@ function App() {
       <div className="h-96" />
 
       {/* Final Present Reveal Section */}
-      <section 
+      <section
         ref={finalRef}
         className="min-h-screen flex items-center justify-center relative"
       >

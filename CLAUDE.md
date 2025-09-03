@@ -10,6 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run lint` - Run ESLint to check code quality
 - `npm run preview` - Preview production build locally
 
+**IMPORTANT: Never run `npm run dev` or attempt to start the frontend development server. The user is already running it locally.**
+
 ### Project Architecture
 
 This is a React + TypeScript + Vite birthday surprise website with a scroll-based yellow brick road journey. The application uses a vertical scrolling animation system where content reveals progressively as the user scrolls.
