@@ -13,9 +13,9 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
 }) => {
   // Dynamic site height that updates with screen size
   const [siteHeight, setSiteHeight] = useState(3408);
-  const viewBoxWidth = 800;
+  const [viewBoxWidth, setViewBoxWidth] = useState(800);
   const centerX = viewBoxWidth / 2;
-  const roadWidth = 160;
+  const roadWidth = Math.max(160, viewBoxWidth * 0.2); // Scale road width with viewport
 
   // Dorothy's position state (now in SVG coordinates)
   const [dorothyPosition, setDorothyPosition] = useState({ x: centerX, y: 0 });
@@ -26,22 +26,32 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
   const startY = 0; // Start at very top
   const endY = siteHeight; // End at very bottom
 
-  // Update site height on mount and resize
+  // Update site height and viewport width on mount and resize
   useEffect(() => {
-    const updateSiteHeight = () => {
+    const updateDimensions = () => {
       const height = document.documentElement.scrollHeight;
       setSiteHeight(height);
+      
+      // Set viewBox width based on screen size
+      const screenWidth = window.innerWidth;
+      if (screenWidth < 768) {
+        // Mobile: narrower viewBox
+        setViewBoxWidth(Math.max(400, screenWidth * 0.8));
+      } else {
+        // Desktop: standard width
+        setViewBoxWidth(800);
+      }
     };
 
-    updateSiteHeight();
-    window.addEventListener("resize", updateSiteHeight);
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
 
     // Also listen for content changes that might affect height
-    const observer = new MutationObserver(updateSiteHeight);
+    const observer = new MutationObserver(updateDimensions);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      window.removeEventListener("resize", updateSiteHeight);
+      window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
     };
   }, []);
@@ -250,10 +260,10 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
           {/* Dorothy positioned inside SVG using same coordinate system */}
           <image
             href={dorothyImage}
-            x={dorothyPosition.x - 80}
-            y={dorothyPosition.y - 60}
-            width="160"
-            height="240"
+            x={dorothyPosition.x - (viewBoxWidth * 0.1)}
+            y={dorothyPosition.y - (viewBoxWidth * 0.075)}
+            width={viewBoxWidth * 0.2}
+            height={viewBoxWidth * 0.3}
             className="drop-shadow-lg"
           />
         </svg>

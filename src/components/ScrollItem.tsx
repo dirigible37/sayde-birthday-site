@@ -20,14 +20,14 @@ export const ScrollItem: React.FC<ScrollItemProps> = ({
     : 'opacity-0 translate-x-8';
 
   const positionClass = side === 'left' 
-    ? 'left-4 md:left-8 lg:left-16 text-left' 
-    : 'right-4 md:right-8 lg:right-16 text-right';
+    ? 'left-2 sm:left-4 md:left-8 lg:left-16 text-left' 
+    : 'right-2 sm:right-4 md:right-8 lg:right-16 text-right';
 
   return (
     <div 
       className={`
         absolute top-1/2 transform -translate-y-1/2 z-20
-        px-2 py-4 max-w-xs md:max-w-md lg:max-w-lg
+        px-2 py-4 w-[calc(100vw-2rem)] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg
         ${positionClass}
         ${animationClass}
         transition-all duration-700 ease-out

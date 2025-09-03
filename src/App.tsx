@@ -57,7 +57,7 @@ function App() {
       {/* Journey Section 1 */}
       <section
         ref={section2Ref}
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
       >
         {section2.isVisible && (
           <ScrollItem side="left" isVisible={section2.isVisible}>
@@ -76,7 +76,7 @@ function App() {
       {/* Journey Section 2 */}
       <section
         ref={section3Ref}
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
       >
         {section3.isVisible && (
           <ScrollItem side="right" isVisible={section3.isVisible}>
@@ -95,7 +95,7 @@ function App() {
       {/* Journey Section 3 */}
       <section
         ref={section4Ref}
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
       >
         {section4.isVisible && (
           <ScrollItem side="left" isVisible={section4.isVisible}>
@@ -114,7 +114,7 @@ function App() {
       {/* Journey Section 4 */}
       <section
         ref={section5Ref}
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
       >
         {section5.isVisible && (
           <ScrollItem side="right" isVisible={section5.isVisible}>
@@ -136,7 +136,7 @@ function App() {
       {/* Final Present Reveal Section */}
       <section
         ref={finalRef}
-        className="min-h-screen flex items-center justify-center relative"
+        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative"
       >
         {final.isVisible && <PresentReveal isVisible={final.isVisible} />}
       </section>

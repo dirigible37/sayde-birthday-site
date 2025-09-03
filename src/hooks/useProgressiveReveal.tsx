@@ -66,10 +66,16 @@ export const useRoadAnimation = () => {
       setRoadProgress(Math.min(Math.max(adjustedProgress, 0), 100));
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Use passive listeners for better mobile performance
+    const options = { passive: true, capture: false };
+    window.addEventListener('scroll', handleScroll, options);
+    window.addEventListener('touchmove', handleScroll, options);
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
+    };
   }, []);
 
   return roadProgress;

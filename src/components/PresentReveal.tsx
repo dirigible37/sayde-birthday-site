@@ -38,7 +38,7 @@ export const PresentReveal: React.FC<PresentRevealProps> = ({
       className={`
       absolute inset-0 z-30 
       flex flex-col items-center justify-center 
-      bg-black/20 backdrop-blur-sm
+      bg-gradient-to-b from-black/0 to-black/50
       px-4 py-8
       ${className}
     `}
@@ -146,7 +146,7 @@ export const PresentReveal: React.FC<PresentRevealProps> = ({
           }
         `}
         >
-          <div className="text-center text-white bg-black/70 backdrop-blur-sm rounded-xl p-4 md:p-6">
+          <div className="text-center text-white bg-black/80 backdrop-blur-sm rounded-xl p-4 md:p-6">
             <h1 className="text-2xl md:text-3xl font-bold mb-2">
               Happy 35th Birthday, Sayde! 🎂
             </h1>
