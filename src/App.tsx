@@ -90,12 +90,11 @@ function App() {
               A Special Surprise 🎁
             </h3>
             <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "Somewhere over the rainbow skies are blue …"
+              "That, my dear, is a 'horse of a different color.'"
             </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              You deserve the best, and we wanted to make sure you get it for
-              your 35th. It may not be what you were expecting, but you're in a
-              family used to going the long way.
+              You deserve the best, and we wanted to make sure you get it for your 35th. It may not be
+              what you were expecting, but you're in a family used to doing things differently
             </p>
           </ScrollItem>
         )}
@@ -112,12 +111,11 @@ function App() {
               Almost There! 🌈
             </h3>
             <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "You've always had the power, my dear. You just had to learn it
-              for yourself."
+              "Somewhere over the rainbow skies are blue …"
             </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Hope you've enjoyed your magical journey. You're now ready for the
-              surprise ahead.
+              There are a couple more twists and turns to take, but you are a great navigator (and Leia
+              can help). It will be worth it!
             </p>
           </ScrollItem>
         )}
@@ -131,12 +129,14 @@ function App() {
         {section5.isVisible && (
           <ScrollItem side="right" isVisible={section5.isVisible}>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              Your Surprise Awaits! ✨
+              Your Surprise Awaits ✨
             </h3>
+            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
+              "You've always had the power, my dear. You just had to learn it for yourself."
+            </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              The yellow brick road has led you through this magical journey,
-              and now it's time for the moment you've been waiting for. Your
-              birthday surprise is just ahead!
+              Hope you've enjoyed your magical journey. You're now ready for the
+              surprise ahead.
             </p>
           </ScrollItem>
         )}
