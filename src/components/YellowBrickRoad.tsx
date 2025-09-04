@@ -31,7 +31,7 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
     const updateDimensions = () => {
       const height = document.documentElement.scrollHeight;
       setSiteHeight(height);
-      
+
       // Set viewBox width based on screen size
       const screenWidth = window.innerWidth;
       if (screenWidth < 768) {
@@ -260,14 +260,39 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
           {/* Dorothy positioned inside SVG using same coordinate system */}
           <image
             href={dorothyImage}
-            x={dorothyPosition.x - (viewBoxWidth * 0.1)}
-            y={dorothyPosition.y - (viewBoxWidth * 0.075)}
+            x={dorothyPosition.x - viewBoxWidth * 0.1}
+            y={dorothyPosition.y - viewBoxWidth * 0.075}
             width={viewBoxWidth * 0.2}
             height={viewBoxWidth * 0.3}
             className="drop-shadow-lg"
           />
         </svg>
       </div>
+
+      {/* Celebration sparkles at the end */}
+      {progress > 95 && (
+        <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-ping"
+              style={{
+                left: `${20 + Math.random() * 60}%`,
+                bottom: `${10 + Math.random() * 30}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${1 + Math.random()}s`,
+              }}
+            >
+              <div
+                className="w-2 h-2 bg-yellow-400 rounded-full"
+                style={{
+                  boxShadow: "0 0 8px rgba(255, 215, 0, 0.8)",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Emerald City Component */}
       <EmeraldCity progress={progress} isVisible={progress > 85} />
