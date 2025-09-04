@@ -39,13 +39,15 @@ function App() {
       >
         <div className="text-center text-white max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in-up">
-            Welcome to Your
+            It's your Birthday Week!
           </h1>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 md:mb-8 text-yellow-400 animate-fade-in-up delay-300">
-            Birthday Journey! 🎂
+            "Just follow the yellow brick road."
           </h2>
           <p className="text-lg md:text-xl opacity-90 animate-fade-in-up delay-500 leading-relaxed">
-            Follow the yellow brick road to discover your special surprise...
+            In celebration of you and your 35th birthday, we're sending you on a
+            (virtual) journey. So, put on your ruby red slippers (um, Bangs),
+            and keep scrolling.
           </p>
           <div className="mt-8 animate-bounce-gentle">
             <div className="text-3xl">👇</div>
@@ -62,12 +64,16 @@ function App() {
         {section2.isVisible && (
           <ScrollItem side="left" isVisible={section2.isVisible}>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              The Adventure Begins! ✨
+              35 Years of Amazing! ✨
             </h3>
+            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
+              "A heart is shown not by how much you love, but by how much you
+              are loved by others."
+            </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Every great birthday deserves a magical celebration. Your special
-              day calls for something extraordinary, and this yellow brick road
-              will lead you there!
+              Do you know how special you are? We do. Your kindness and
+              enthusiasm make every day brighter for everyone around you. Anyone
+              who is lucky enough to know you knows this.
             </p>
           </ScrollItem>
         )}
@@ -81,12 +87,15 @@ function App() {
         {section3.isVisible && (
           <ScrollItem side="right" isVisible={section3.isVisible}>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              35 Years of Amazing! 🌟
+              A Special Surprise 🎁
             </h3>
+            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
+              "Somewhere over the rainbow skies are blue …"
+            </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Celebrating another year of your wonderful presence in this world.
-              Your kindness, laughter, and spirit make every day brighter for
-              everyone around you.
+              You deserve the best, and we wanted to make sure you get it for
+              your 35th. It may not be what you were expecting, but you're in a
+              family used to going the long way.
             </p>
           </ScrollItem>
         )}
@@ -100,12 +109,15 @@ function App() {
         {section4.isVisible && (
           <ScrollItem side="left" isVisible={section4.isVisible}>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              A Special Surprise Awaits 🎁
+              Almost There! 🌈
             </h3>
+            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
+              "You've always had the power, my dear. You just had to learn it
+              for yourself."
+            </p>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              The road is almost complete, and your birthday surprise is just
-              around the corner. Something special has been prepared just for
-              you!
+              Hope you've enjoyed your magical journey. You're now ready for the
+              surprise ahead.
             </p>
           </ScrollItem>
         )}
@@ -119,7 +131,7 @@ function App() {
         {section5.isVisible && (
           <ScrollItem side="right" isVisible={section5.isVisible}>
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              Almost There! 🌈
+              Your Surprise Awaits! ✨
             </h3>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               The yellow brick road has led you through this magical journey,

@@ -134,7 +134,7 @@ export const PresentReveal: React.FC<PresentRevealProps> = ({
           </div>
         </div>
 
-        {/* Birthday Message */}
+        {/* Credits */}
         <div
           className={`
           relative
@@ -150,9 +150,17 @@ export const PresentReveal: React.FC<PresentRevealProps> = ({
             <h1 className="text-2xl md:text-3xl font-bold mb-2">
               Happy 35th Birthday, Sayde! 🎂
             </h1>
-            <p className="text-base md:text-lg opacity-90">
-              Hope your day is as amazing as you are!
-            </p>
+            <div className="mt-4 space-y-2 text-sm md:text-base opacity-90">
+              <div>
+                <span className="font-semibold">Idea for the tickets:</span> Joss Mohr
+              </div>
+              <div>
+                <span className="font-semibold">Website idea and creation:</span> Winslow Mohr
+              </div>
+              <div>
+                <span className="font-semibold">Copy and photos:</span> Jan Haskell-Mohr
+              </div>
+            </div>
           </div>
         </div>
       </div>
