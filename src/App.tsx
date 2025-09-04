@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { BackgroundGradient } from "./components/BackgroundGradient";
 import { YellowBrickRoad } from "./components/YellowBrickRoad";
-import { ScrollItem } from "./components/ScrollItem";
+import { JourneyFlow } from "./components/JourneyFlow";
 import { PresentReveal } from "./components/PresentReveal";
 import { useScrollAnimation } from "./hooks/useScrollAnimation";
 import { useRoadAnimation } from "./hooks/useProgressiveReveal";
@@ -9,19 +9,11 @@ import { useRoadAnimation } from "./hooks/useProgressiveReveal";
 function App() {
   const roadProgress = useRoadAnimation();
 
-  // Refs for scroll sections
+  // Refs for remaining sections
   const section1Ref = useRef<HTMLDivElement>(null);
-  const section2Ref = useRef<HTMLDivElement>(null);
-  const section3Ref = useRef<HTMLDivElement>(null);
-  const section4Ref = useRef<HTMLDivElement>(null);
-  const section5Ref = useRef<HTMLDivElement>(null);
   const finalRef = useRef<HTMLDivElement>(null);
 
   // Animation hooks
-  const section2 = useScrollAnimation(section2Ref);
-  const section3 = useScrollAnimation(section3Ref);
-  const section4 = useScrollAnimation(section4Ref);
-  const section5 = useScrollAnimation(section5Ref);
   const final = useScrollAnimation(finalRef, {
     threshold: 0.8,
     rootMargin: "-10% 0px -10% 0px",
@@ -31,6 +23,7 @@ function App() {
     <div className="relative">
       <BackgroundGradient />
       <YellowBrickRoad progress={roadProgress} />
+      
 
       {/* Welcome Section */}
       <section
@@ -56,91 +49,8 @@ function App() {
         </div>
       </section>
 
-      {/* Journey Section 1 */}
-      <section
-        ref={section2Ref}
-        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
-      >
-        {section2.isVisible && (
-          <ScrollItem side="left" isVisible={section2.isVisible}>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              35 Years of Amazing! ✨
-            </h3>
-            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "A heart is shown not by how much you love, but by how much you
-              are loved by others."
-            </p>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Do you know how special you are? We do. Your kindness and
-              enthusiasm make every day brighter for everyone around you. Anyone
-              who is lucky enough to know you knows this.
-            </p>
-          </ScrollItem>
-        )}
-      </section>
-
-      {/* Journey Section 2 */}
-      <section
-        ref={section3Ref}
-        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
-      >
-        {section3.isVisible && (
-          <ScrollItem side="right" isVisible={section3.isVisible}>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              A Special Surprise 🎁
-            </h3>
-            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "That, my dear, is a 'horse of a different color.'"
-            </p>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              You deserve the best, and we wanted to make sure you get it for your 35th. It may not be
-              what you were expecting, but you're in a family used to doing things differently
-            </p>
-          </ScrollItem>
-        )}
-      </section>
-
-      {/* Journey Section 3 */}
-      <section
-        ref={section4Ref}
-        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
-      >
-        {section4.isVisible && (
-          <ScrollItem side="left" isVisible={section4.isVisible}>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              Almost There! 🌈
-            </h3>
-            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "Somewhere over the rainbow skies are blue …"
-            </p>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              There are a couple more twists and turns to take, but you are a great navigator (and Leia
-              can help). It will be worth it!
-            </p>
-          </ScrollItem>
-        )}
-      </section>
-
-      {/* Journey Section 4 */}
-      <section
-        ref={section5Ref}
-        className="min-h-[100dvh] min-h-screen flex items-center justify-center relative overflow-hidden"
-      >
-        {section5.isVisible && (
-          <ScrollItem side="right" isVisible={section5.isVisible}>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
-              Your Surprise Awaits ✨
-            </h3>
-            <p className="text-sm md:text-base text-gray-500 italic leading-relaxed mb-3">
-              "You've always had the power, my dear. You just had to learn it for yourself."
-            </p>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-              Hope you've enjoyed your magical journey. You're now ready for the
-              surprise ahead.
-            </p>
-          </ScrollItem>
-        )}
-      </section>
+      {/* Journey Flow - All text and photo sections */}
+      <JourneyFlow />
 
       {/* Spacer before final section */}
       <div className="h-96" />

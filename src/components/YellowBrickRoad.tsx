@@ -257,6 +257,7 @@ export const YellowBrickRoad: React.FC<YellowBrickRoadProps> = ({
             stroke="#654321"
             strokeWidth="2"
           />
+
           {/* Dorothy positioned inside SVG using same coordinate system */}
           <image
             href={dorothyImage}
